@@ -46,12 +46,7 @@ class Modals extends React.Component {
           longitude: "16.321",
           radius: "500",
         },
-        {
-          name: "Theni",
-          latitude: "1.121",
-          longitude: "17.321",
-          radius: "500",
-        },
+        
       ],
       showCarosal: true,
       item: [],
