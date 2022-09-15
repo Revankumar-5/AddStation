@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import Addrecipies1 from "./registrationformadd.js";
+import Addstation1 from "./registrationformadd.js";
 import { ModalHeader } from 'react-bootstrap';
 class Addmodel extends React.PureComponent {
   constructor(props) {
@@ -32,7 +32,7 @@ class Addmodel extends React.PureComponent {
           
           </ModalHeader>
 
-            <Addrecipies1
+            <Addstation1
               AddStation={(e)=>  this.AddStation(e)}
             />   
           </Modal>   

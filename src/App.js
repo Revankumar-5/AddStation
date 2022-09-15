@@ -15,11 +15,8 @@ class Modals extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       isOpen: false,
-      selectedOption: "None",
       formValues: [{ name: "", latitude: "", longitude: "", radius: "" ,position:0}],
-      total: null,
       localStorage: [
         {
           name: "Select the Station",
@@ -60,6 +57,8 @@ class Modals extends React.Component {
       count:0,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.addFormFields = this.addFormFields.bind(this);
+    
   }
   addFormFields() {
     $( "#form" ).sortable( {
@@ -84,24 +83,8 @@ class Modals extends React.Component {
     this.setState({count:newcount})
   
   }
-//  sortableEnable() {
-//     $( "#sortable" ).sortable();
-//     $( "#sortable" ).sortable( "option", "disabled", false );
-//     // ^^^ this is required otherwise re-enabling sortable will not work!
-//     $( "#sortable" ).disableSelection();
-//     return false;
-//   }
-//  sortableDisable() {
-//     $( "#draggable" ).sortable("disable");
-//     console.log("stoppped");
-
-   
-//   }
   removeFormFields(i,e) {
-    // this.sortableDisable();
-    // // console.log(e);
-    // $("#form").sortable( "disable" )
- 
+
     let formValues = this.state.formValues;
     formValues.splice(i, 1);
   this.setState({ formValues });
@@ -109,15 +92,7 @@ class Modals extends React.Component {
   
   }
   handleChange(index, e) {
-    // var selectedData =
-    //   this.state.localStorage[
-    //     this.state.localStorage
-    //       .map(function (item) {
-    //         return item.name;
-    //       })
-    //       .indexOf(e.target.value)
-    //   ];
-  
+ 
     const selectedData=this.state.localStorage.find((data=>data.name===e.target.value));
     console.log(selectedData);
     const found = this.state.formValues.some(
@@ -125,16 +100,9 @@ class Modals extends React.Component {
         el.latitude == selectedData.latitude &&
         el.longitude == selectedData.longitude
     );
-    console.log(found);
     if (!found) {
       const values={ ...selectedData,name:e.target.value}
       this.state.formValues[index]=values;
-      // this.state.formValues[index].name = e.target.value;
-      // this.setState({ formValues: this.state.formValues });
-      // this.state.formValues[index].latitude = selectedData.latitude;
-      // this.state.formValues[index].longitude = selectedData.longitude;
-      // this.state.formValues[index].radius = selectedData.radius;
-      // this.state.formValues[index].position = index;
       this.setState({ formValues: this.state.formValues });
     } else {
       toast(
@@ -163,23 +131,7 @@ class Modals extends React.Component {
   };
   componentDidMount() {
     localStorage.setItem("station1", JSON.stringify([]));
-    $( "#form" ).sortable( );
-   
-    
-    const items=this.state.formValues
-    
-    // {    $( "#form" ).sortable({
-    //     connectWith: ".formsortable",
-    //     stop: function(e, formsortable){
-    //       console.log(formsortable.innerHTML)
-        
-    //       var item = formsortable.item[0].id
-    //       var from = formsortable.sender?"not the same sortable":"same sortable";
-    //       alert("dragged:" + item + " from: " + from);
-    //     }
-    //   }).disableSelection();
-  
-    // }
+    $( "#form" ).sortable( ); 
   }
   render() {
     return (
@@ -219,9 +171,8 @@ class Modals extends React.Component {
                         <i  
                           style={{ marginRight: "20px" }}
                           class="bi bi-arrow-down-up"
-                        >
-                          {index}
-                        </i>
+                       />
+                      
                         <select
                           style={{ width: "200px", height: "30px" }}
                           value={this.state.formValues[index].name}
@@ -280,7 +231,7 @@ class Modals extends React.Component {
               <button
                 type="button"
                 class="btn btn-primary"
-                onClick={() => this.addFormFields()}
+                onClick={this.addFormFields}
               >
                 +
               </button>
